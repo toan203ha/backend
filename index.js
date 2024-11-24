@@ -1,12 +1,12 @@
 const express = require('express');
-const { connectToDatabase } = require('./db');
+const { connectToDatabase,connectDB } = require('./config/db');
 const routes = require('./routes');
-
+ 
 const app = express();
 const port = 3000;
 
 connectToDatabase();
-
+connectDB();
 app.use(express.json());
 app.use('/api', routes);
 
