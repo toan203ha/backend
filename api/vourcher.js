@@ -1,6 +1,6 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
-const Voucher = require('../model/voucher');  // Đảm bảo bạn đã tạo model Voucher
+const Voucher = require('../model/voucher');  
 const router = express.Router();
 
 // Lấy tất cả voucher (chỉ lấy những trường cần thiết)
@@ -18,12 +18,12 @@ router.get('', async (req, res) => {
 // Thêm mới voucher
 router.post('', async (req, res) => {
     const { titleVoucher, valueVoucher, descVoucher } = req.body;
-  
+
     // Kiểm tra dữ liệu đầu vào
     if (!titleVoucher || !valueVoucher || !descVoucher) {
-      return res.status(400).json({ error: 'Thiếu thông tin titleVoucher, valueVoucher hoặc descVoucher' });
+        return res.status(400).json({ error: 'Thiếu thông tin titleVoucher, valueVoucher hoặc descVoucher' });
     }
-  
+
     try {
         // Tạo mới một Voucher
         const newVoucher = new Voucher({
@@ -31,9 +31,9 @@ router.post('', async (req, res) => {
             valueVoucher,
             descVoucher,
         });
-  
+
         const savedVoucher = await newVoucher.save();
-  
+
         res.status(201).json({ message: 'Thêm voucher thành công', data: { savedVoucher } });
     } catch (error) {
         console.error('Lỗi khi thêm voucher:', error);
@@ -44,16 +44,16 @@ router.post('', async (req, res) => {
 // Xóa voucher theo ID
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-  
+
     // Kiểm tra id có hợp lệ không
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'ID không hợp lệ' });
+        return res.status(400).json({ error: 'ID không hợp lệ' });
     }
-  
+
     try {
         // Sử dụng `new ObjectId(id)` khi xóa
         await Voucher.deleteOne({ _id: new ObjectId(id) });
-  
+
         res.json({ message: 'Xóa voucher thành công' });
     } catch (error) {
         console.error('Lỗi khi xóa voucher:', error);
@@ -69,7 +69,7 @@ router.put('/:id', async (req, res) => {
 
     try {
         const updatedVoucher = await Voucher.updateOne(
-            { _id: new ObjectId(id) }, 
+            { _id: new ObjectId(id) },
             {
                 $set: {
                     titleVoucher: titleVoucher,

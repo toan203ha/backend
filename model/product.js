@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-  name: { type: String, required: true },   
-  des: { type: String },   
-  img: { type: String },   
-  img2: { type: String },  
-  img3: { type: String },  
-  img4: { type: String },  
-  price: { type: Number, required: true },   
-  categoryID: { type: String, required: true }, 
-  soLuongTon: { type: Number, default: 0 },   
+  TEN: { type: String, required: true },   
+  DES: { type: String },   
+  IMG: { type: String },   
+  Hinh_2: { type: String },  
+  Hinh_3: { type: String },  
+  Hinh_4: { type: String },  
+  PRICE: { type: Number, required: true },   
+  CateID: { type: [String], required: true }, 
+  SoluongTon: { type: Number, default: 0 },   
   soLuongGG: { type: Number, default: 0 },    
-  maNXB: { type: String },  // Mã Nhà xuất bản
+  MaNXB: { type: String },   
 }, { 
   collection: 'PRODUCT',  
   timestamps: true   

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const categorySchema = new Schema({
-  TenLoai: String,
+  TENLOAI: String,
   Img: String
 }, { 
   collection: 'CATEGORY',
@@ -11,7 +11,7 @@ const categorySchema = new Schema({
 
  categorySchema.set('toJSON', {
   virtuals: true,  
-  versionKey: true,  
+  versionKey: false,  
   transform: function (doc, ret) {
     delete ret.id;    
     return ret;      

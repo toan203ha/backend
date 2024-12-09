@@ -12,7 +12,7 @@ const voucherSchema = new Schema({
 
 voucherSchema.set('toJSON', {
   virtuals: true,  
-  versionKey: true,  
+  versionKey: false,  
   transform: function (doc, ret) {
     delete ret.id;    
     return ret;      

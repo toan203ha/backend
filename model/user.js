@@ -2,13 +2,19 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const customerSchema = new Schema({
-  fullNameCus: { type: String, required: true },
-  addressCus: { type: String, required: true },
-  emailCus: { type: String, required: true },
+  _id: { type: Schema.Types.ObjectId, auto: true },
+  fullNameCus: { type: String },
+  passWord: { type: String,minlength: 6, maxlength: 15 },
+  addressCus: { type: String},
+  emailCus: { type: String },
   img: { type: String },
-  phoneNumCus: { type: String, required: true },
+  phoneNumCus: { type: String },
   genderCus: { type: String },
   rank: { type: Number, default: 0 },   
+  roleIds: [
+    { type: Schema.Types.ObjectId, ref: 'Role', required: false },  
+  ],
+  isActive: { type: Boolean, default: true },  
 }, {
   collection: 'USER',
   timestamps: true,  

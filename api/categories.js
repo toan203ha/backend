@@ -61,5 +61,31 @@ router.delete('/:id', async (req, res) => {
       res.status(500).json({ error: 'Lỗi Server nội bộ' });
     }
   });
-
+// cập nhật dữ liệu
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { TenLoai, Img } = req.body;
+  
+    // Kiểm tra id có hợp lệ không
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID không hợp lệ' });
+    }
+  
+    // Kiểm tra dữ liệu đầu vào
+    if (!TenLoai || !Img) {
+      return res.status(400).json({ error: 'Thiếu thông tin name hoặc img' });
+    }
+  
+    try {
+      // Cập nhật Category
+      await Category.updateOne(
+         { _id: ObjectId(id) },
+         { $set: { TenLoai: TenLoai, Img: Img } });
+  
+      res.json({ message: 'Cập nhật danh mục thành công' });
+    } catch (error) {
+      console.error('Lỗi khi cập nhật danh mục:', error);
+      res.status(500).json({ error: 'Lỗi Server nội bộ' });
+    }
+  });
 module.exports = router;
