@@ -9,8 +9,12 @@ const Nxb = require('../model/nxb');
 // lay toan bo san pham
 router.get('', async (req, res) => {
     try {
-        const nxb = await Product.find({});
-        res.json(nxb);
+        const products = await Product.find({});
+        res.json({
+
+            isEmpty: products.length === 0,
+            data: products
+          });
     } catch (error) {
         console.error('Error fetching nxb:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -21,9 +25,9 @@ router.post('', async (req, res) => {
     const { TEN, DES, IMG, Hinh_2, Hinh_3, Hinh_4, PRICE, CateID, SoluongTon, soLuongGG, MaNXB } = req.body;
     console.log(req.body);
 
-    if (!TEN || !DES || !IMG || !PRICE || !CateID || !SoluongTon || !soLuongGG || !MaNXB) {
-        return res.status(400).json({ error: 'Thiếu thông tin' });
-    }
+    // if (!TEN || !DES || !IMG || !PRICE || !CateID || !SoluongTon || !soLuongGG || !MaNXB) {
+    //     return res.status(400).json({ error: 'Thiếu thông tin' });
+    // }
     
             // Kiểm tra tất cả các category va ma nxb có hợp lệ hay không
             const isValidCategories = await Promise.all(

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
+  _id: { type: Schema.Types.ObjectId, auto: true },
   TEN: { type: String, required: true },   
   DES: { type: String },   
   IMG: { type: String },   
