@@ -1,7 +1,8 @@
 const express = require('express');
 const {connectDB } = require('./config/db');
 const routes = require('./routes');
-const router = require('./v2');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -14,8 +15,9 @@ console.log(`Connecting to database at ${dbPass} with user ${dbPass}...`);
 //connectToDatabase();
 connectDB();
 app.use(express.json());
-app.use('/api', router);
 app.use('/api', routes);
+app.use(cookieParser());
+app.use(cors({ origin: 'https://localhost:7020', credentials: true }));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

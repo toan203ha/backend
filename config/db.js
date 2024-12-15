@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URL || 'mongodb+srv://pontax:qyPYHjaViAgFviYB@cluster0.068c8rk.mongodb.net/Shop?retryWrites=true&w=majority';
-const dbName = 'CUAHANGBANSACH';
- 
+  
  async function connectDB() {
   try {
     await mongoose.connect(url, {

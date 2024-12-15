@@ -10,7 +10,7 @@ const router = express.Router();
 const uploadDir = path.join(__dirname, 'uploads');
 const checkRole = require('../middleware/checkrole'); 
 const checkPermission = require('../middleware/checkPermission'); 
-
+ 
 router.get('/admin', checkRole(['Admin', 'manager']), (req, res) => {
   res.send('Welcome to the admin section');
 });
@@ -77,7 +77,7 @@ const upload = multer({ storage: storage });
 // });
 
 // lấy danh sách người dùng
-router.get('', async (req, res) => {
+router.get('',checkRole(['Admin']), async (req, res) => {
   try {
     const user = await Users.find({});
 
@@ -195,14 +195,31 @@ router.post('/login', async (req, res) => {
 
     const id = users._id;
     const roles = users.roleIds;
-    const token = jwt.sign({id,emailCus, passWord, roleIds: roles},
+
+    // Tạo JWT token
+    const tokenSign = jwt.sign(
+      { id, emailCus, passWord, roleIds: roles },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' });
-    res.json({ token });
+      { expiresIn: '1h' }
+    );
+
+    // Lưu token vào cookie (không cần await)
+    res.cookie('authToken', tokenSign, {
+      maxAge: 3600000, // Cookie hết hạn sau 1 giờ
+      domain: '.yourdomain.com',  // Chia sẻ cookie giữa các subdomain của yourdomain.com
+      httpOnly: true,
+      secure: true,  // Đảm bảo cookie chỉ được gửi qua HTTPS
+      sameSite: 'Strict'  // Hoặc 'Lax', tùy thuộc vào yêu cầu bảo mật của bạn
+  });
+  
+
+    // Trả về thông báo thành công và token
+    res.json({ message: 'Login successful', token: tokenSign });
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 module.exports = router;
