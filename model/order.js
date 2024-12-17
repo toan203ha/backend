@@ -9,10 +9,10 @@ const DonhangStatus = {
 };
 
 const orderSchema = new Schema({
+  _id: { type: Schema.Types.ObjectId, auto: true },
   idCus: { type: String, required: true },
   ngayDat: { type: Date, default: Date.now },
   ngayNhan: { type: Date },
-  idPro: { type: String, required: true },
   status: { type: String, enum: Object.values(DonhangStatus), default: DonhangStatus.PENDING },
   address: { type: String },
   tenUser: { type: String },

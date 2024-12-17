@@ -5,7 +5,7 @@ const ctdhSchema = new Schema({
   idDH: { type: String, required: true },
   idPro: { type: String, required: true },
   soLuong: { type: String, required: true },
-  thanhTien: { type: Number, required: true },
+  giaTien: { type: Number, required: true },
 }, {
   collection: 'CTDH',
   timestamps: true,  

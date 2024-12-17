@@ -11,7 +11,7 @@ const payment = require('./api/payment');
 const role= require('./api/role');
 const permission = require('./api/permissions');
 const router = express.Router();
-
+const oderv2 = require('./api/oderv2');
 
 router.use('/users', userRoutes);
 router.use('/products', productRoutes);
@@ -24,4 +24,5 @@ router.use('/orderdetails', orderDetailRoutes);
 router.use('/nxb', nxbRoutes);
 router.use('/roles', role);
 router.use('/permissions', permission);
+router.use('/oderv2', oderv2);
 module.exports = router;

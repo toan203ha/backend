@@ -82,7 +82,6 @@ router.get('',checkRole(['Admin']), async (req, res) => {
     const user = await Users.find({});
 
     res.json({
-
       isEmpty: user.length === 0,
       data: user
     });
@@ -195,24 +194,19 @@ router.post('/login', async (req, res) => {
 
     const id = users._id;
     const roles = users.roleIds;
-
+    console.log(process.env.JWT_SECRET);
     // Tạo JWT token
     const tokenSign = jwt.sign(
       { id, emailCus, passWord, roleIds: roles },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-
-    // Lưu token vào cookie (không cần await)
-    res.cookie('authToken', tokenSign, {
-      maxAge: 3600000, // Cookie hết hạn sau 1 giờ
-      domain: '.yourdomain.com',  // Chia sẻ cookie giữa các subdomain của yourdomain.com
-      httpOnly: true,
-      secure: true,  // Đảm bảo cookie chỉ được gửi qua HTTPS
-      sameSite: 'Strict'  // Hoặc 'Lax', tùy thuộc vào yêu cầu bảo mật của bạn
-  });
-  
-
+    const tokencookie = await res.cookie('authToken', tokenSign, {
+      expires: new Date(
+        Date.now() +
+        2400 * 24 * 60 * 60 * 1000,
+      ),
+    });
     // Trả về thông báo thành công và token
     res.json({ message: 'Login successful', token: tokenSign });
   } catch (error) {
